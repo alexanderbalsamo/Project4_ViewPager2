@@ -1,0 +1,36 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.example.project3_pets.WebImageView_KP
+        android:id="@+id/imageView"
+        class="com.example.keith.test_networking_lib.WebImageView_KP"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        />
+
+    <TextView
+        android:id="@+id/tvPetName"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="#33777777"
+        android:gravity="center"
+        android:text="sample Name"
+        android:textSize="50dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="#33777777"
+        android:gravity="center"
+        android:text="sample Info"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+</FrameLayout>

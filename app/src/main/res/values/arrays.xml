@@ -1,0 +1,12 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="JSON_URL_NAME">
+        <item>CNU - Defender</item>
+        <item>Pair - Teton Software - Pets</item>
+    </string-array>
+
+    <string-array name="JSON_URL_VALUE">
+        <item>https://www.pcs.cnu.edu/~kperkins/pets/pets.json</item>
+        <item>https://www.tetonsoftware.com/pets/</item>
+    </string-array>
+</resources>

@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <ListPreference
+            app:defaultValue="http://www.pcs.cnu.edu/~kperkins/pets/"
+            app:entries="@array/JSON_URL_NAME"
+            app:entryValues="@array/JSON_URL_VALUE"
+            app:key="listPref"
+            app:title="@string/info"
+            app:summary="Select which site to get JSON data from"
+            app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

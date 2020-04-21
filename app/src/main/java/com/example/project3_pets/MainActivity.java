@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
                 //Update URL and spinner
                 getPrefValues(myPreferences);
                 downloadURL();
-                try {
-                    setImage(jsonArray.getJSONObject(0).getString("file"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    setImage(jsonArray.getJSONObject(0).getString("file"));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
             }
         };
@@ -85,17 +85,16 @@ public class MainActivity extends AppCompatActivity {
         downloadURL();
 
         //set image
-        try {
-            setImage(jsonArray.getJSONObject(0).getString("file"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            setImage(jsonArray.getJSONObject(0).getString("file"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         //get a ref to the viewpager
         vp=findViewById(R.id.view_pager);
         //create an instance of the swipe adapter
         csa = new ViewPager2_Adapter(this);
-
         //set this viewpager to the adapter
         vp.setAdapter(csa);
     }
@@ -120,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
             // you must know what the data format is, a bit brittle
             jsonArray = jsonobject.getJSONArray("pets");
+            csa.acceptJSON(jsonArray);
             Log.d(TAG, jsonArray.toString());
 
             // how many entries

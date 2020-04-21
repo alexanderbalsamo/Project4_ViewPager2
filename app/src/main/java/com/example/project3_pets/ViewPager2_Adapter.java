@@ -12,11 +12,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+
 public class ViewPager2_Adapter extends RecyclerView.Adapter {
     private final Context ctx;
     private final LayoutInflater li;
+    private JSONArray imageInfo;
     //TODO: get images from JSON info
-    //private int[] image_resources = { R.drawable.p0,R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p4,R.drawable.p5 };
+    private int[] image_resources = {R.drawable.error};
+
+    public void acceptJSON(JSONArray json){
+        imageInfo = json;
+    }
+
+//    private void getImageResource(){
+//        for(int i = 0; i<imageInfo.length();)
+//        String imageFile = imageInfo.getJSONObject(i).getString("file");
+//    }
+
+
 
     class PagerViewHolder extends RecyclerView.ViewHolder {
         private static final int UNINITIALIZED = -1;
@@ -53,13 +67,6 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         }
         @Override
         protected Void doInBackground(Void... params) {
-
-            //just sleep for a bit
-            try {
-                Thread.sleep(2000); //sleep for 2 seconds
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             return null;
         }
         @Override

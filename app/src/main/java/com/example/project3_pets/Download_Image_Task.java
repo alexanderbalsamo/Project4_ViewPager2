@@ -18,6 +18,9 @@ public class Download_Image_Task extends AsyncTask<String, Void, Bitmap> {
     private int                     statusCode=0;
     private String                  url;
 
+    // get reference to my viewpager
+    ViewPager2_Adapter myViewPager2;
+
     /**
      *
      * @param params  just the single url of the site to download from
@@ -37,7 +40,7 @@ public class Download_Image_Task extends AsyncTask<String, Void, Bitmap> {
             // this does no network IO
             HttpURLConnection connection = (HttpURLConnection) url1.openConnection();
 
-            // can further configure connection before getting data
+            // can? instead of setImageResource? further configure connection before getting data
             // cannot do this after connected
             // connection.setRequestMethod("GET");
             // connection.setReadTimeout(timeoutMillis);
@@ -87,6 +90,9 @@ public class Download_Image_Task extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap result) {
+        if (myViewPager2 != null) {
+            myViewPager2.setImage(result);
+        }
     }
 
     /*

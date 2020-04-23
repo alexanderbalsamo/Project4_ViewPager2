@@ -1,6 +1,7 @@
 package com.example.project3_pets;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,6 +59,11 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void setImage(Bitmap result) {
+        // TODO: figure out how to set the image
+        PagerViewHolder.iv.setImageBitmap(result);
+    }
+
     class PagerViewHolder extends RecyclerView.ViewHolder {
         private static final int UNINITIALIZED = -1;
         ImageView iv;
@@ -91,6 +97,7 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
             //make a copy to compare later, once we have the image
             this.original_position = myVh.position;
         }
+
         @Override
         protected Void doInBackground(Void... params) {
             return null;
@@ -103,11 +110,14 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
             if (this.myVh.position == this.original_position){
                 //still valid
                 //set the result on the main thread
-                //TODO: set the image using a bitmap?? instead of setImageResource?
-                //myVh.iv.setImageUrl();
-
-                //myVh.iv.setImageResource(image_resources[this.myVh.position]);
+                //TODO: set the image using a bitmap
                 if (jsonInfo != null) {
+                    // Get the bitmap and set the image
+                    Download_Image_Task getBitmap = new Download_Image_Task();
+                    getBitmap.execute(file_resources.get(this.myVh.position));
+
+                    // TODO: add this to on post execute so "Getting info..." is still displayed
+                    //Set the text and remove server info
                     myVh.petName.setText(name_resources.get(this.myVh.position));
                     myVh.textInfo.setText("");
                 }

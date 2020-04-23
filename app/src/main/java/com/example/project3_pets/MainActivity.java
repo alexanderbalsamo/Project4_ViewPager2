@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     ConnectivityCheck myCheck;
     private String userURL;
     private JSONArray jsonArray;
-    private int jsonNumArray;
-    private String imageURL;
 
     // ViewPager2 object and adapter
     ViewPager2 vp;
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         // Setup Toolbar and remove title
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         // Preference Change Listener
         myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -49,16 +47,11 @@ public class MainActivity extends AppCompatActivity {
         listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals("listPref")){
-                //Update URL and spinner
-                getPrefValues(myPreferences);
-                downloadURL();
-//                try {
-//                    setImage(jsonArray.getJSONObject(0).getString("file"));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-            }
+                if (key.equals("listPref")){
+                    //Update URL and spinner
+                    getPrefValues(myPreferences);
+                    downloadURL();
+                }
             }
         };
 
@@ -71,27 +64,12 @@ public class MainActivity extends AppCompatActivity {
         //Download Images
         downloadURL();
 
-        //set image
-//        try {
-//            setImage(jsonArray.getJSONObject(0).getString("file"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
         //get a ref to the viewpager
         vp=findViewById(R.id.view_pager);
         //create an instance of the swipe adapter
         csa = new ViewPager2_Adapter(this);
         //set this viewpager to the adapter
         vp.setAdapter(csa);
-    }
-
-    private void setImage(String fileName) {
-        String jsonPets = "pets.json";
-        imageURL = userURL.substring(0, userURL.length()-jsonPets.length()) + fileName;
-        WebImageView_KP imView = (WebImageView_KP) findViewById(R.id.imageView);
-        imView.setImageUrl(imageURL);
-        findViewById(R.id.imageView).setVisibility(View.VISIBLE);
     }
 
     private void getPrefValues(SharedPreferences settings) {
@@ -108,12 +86,6 @@ public class MainActivity extends AppCompatActivity {
             // pass the jsonArray and the URL to the viewPager
             csa.passJSONInfo(jsonArray, userURL);
 
-            //DEBUG
-            //Log.d(TAG, jsonArray.toString());
-
-            // how many entries
-            //jsonNumArray = jsonArray.length();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
     private void downloadURL() {
         // Clear Existing Arrays
         jsonArray = null;
-        jsonNumArray = 0;
         //Create new connectivity check instance
         myCheck = new ConnectivityCheck(this);
         boolean network = myCheck.isNetworkReachable();

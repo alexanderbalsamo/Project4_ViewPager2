@@ -1,36 +1,44 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.example.project3_pets.WebImageView_KP
         android:id="@+id/imageView"
         class="com.example.keith.test_networking_lib.WebImageView_KP"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scaleType="fitXY"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPetName"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_width="411dp"
+        android:layout_height="90dp"
         android:background="#33777777"
         android:gravity="center"
-        android:text="sample Name"
-        android:textSize="50dp"
-        android:textStyle="bold" />
+        android:text=""
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvInfo"
-        android:layout_width="match_parent"
+        android:layout_width="411dp"
         android:layout_height="40dp"
-        android:layout_gravity="center_horizontal|bottom"
         android:background="#33777777"
         android:gravity="center"
-        android:text="sample Info"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:text=""
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

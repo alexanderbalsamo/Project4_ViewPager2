@@ -30,14 +30,13 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
     private JSONArray jsonInfo;
     private String userURL;
     private List<String> file_resources;
-    private List<String> name_resources;
-    private int[] image_resources = {R.drawable.error, R. drawable.error2};
+    public List<String> name_resources;
+    private int[] image_resources = {R.drawable.error};
 
     // Get the JSON information from SettingsActivity in Main
     public void passJSONInfo(JSONArray json, String url) throws JSONException {
         jsonInfo = json;
         userURL = url;
-        notifyDataSetChanged();
         if(jsonInfo != null) {
             getImageResource();
         }
@@ -55,6 +54,8 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
             file_resources.add(imageURL);
             name_resources.add(imageName);
         }
+        // let our viewpager know that we have stuff now!
+        notifyDataSetChanged();
     }
 
     class PagerViewHolder extends RecyclerView.ViewHolder {
@@ -106,9 +107,14 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
                 //myVh.iv.setImageUrl();
 
                 //myVh.iv.setImageResource(image_resources[this.myVh.position]);
-                myVh.textInfo.setText("");
-                //TODO: add setText to fill in petName from JSON info
-                //myVh.petName.setText(image_resources[this.]);
+                if (jsonInfo != null) {
+                    myVh.petName.setText(name_resources.get(this.myVh.position));
+                    myVh.textInfo.setText("");
+                }
+                else {
+                    myVh.petName.setText("");
+                    myVh.textInfo.setText("Server returned 404");
+                }
             }
             else
                 Toast.makeText(ViewPager2_Adapter.this.ctx,"YIKES! Recycler view reused, my result is useless", Toast.LENGTH_SHORT).show();
@@ -149,9 +155,11 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         //the size of the collection that contains the items we want to display
-        return image_resources.length;
-
-        //TODO: add this back in
-        //return imageInfo.length();
+        if (jsonInfo != null) {
+            return jsonInfo.length();
+        }
+        else {
+            return image_resources.length;
+        }
     }
 }

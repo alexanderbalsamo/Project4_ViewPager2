@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     //Update URL and spinner
                     getPrefValues(myPreferences);
                     downloadURL();
+                    // notify the adapter that there was a change!
+                    csa.notifyDataSetChanged();
                 }
             }
         };
@@ -78,13 +80,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void processJSON(String string) {
         try {
-            JSONObject jsonobject = new JSONObject(string);
+            // if we have connection, pass the array to viewpager
+            if (string != null){
+                JSONObject jsonobject = new JSONObject(string);
 
-            // you must know what the data format is, a bit brittle
-            jsonArray = jsonobject.getJSONArray("pets");
+                // you must know what the data format is, a bit brittle
+                jsonArray = jsonobject.getJSONArray("pets");
 
-            // pass the jsonArray and the URL to the viewPager
-            csa.passJSONInfo(jsonArray, userURL);
+                // pass the jsonArray and the URL to the viewPager
+                csa.passJSONInfo(jsonArray, userURL);
+            }
+            // else pass the viewpager a null string
+            else {
+                csa.passJSONInfo(null, userURL);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

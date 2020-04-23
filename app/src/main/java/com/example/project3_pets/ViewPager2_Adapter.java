@@ -21,40 +21,41 @@ import java.util.List;
 
 public class ViewPager2_Adapter extends RecyclerView.Adapter {
     private static final String TAG = "Balsamo";
+
+    // ViewPager Stuff
     private final Context ctx;
     private final LayoutInflater li;
+
+    // JSON Info from Main
     private JSONArray jsonInfo;
     private String userURL;
-    //TODO: get images from JSON info
     private List<String> file_resources;
     private List<String> name_resources;
     private int[] image_resources = {R.drawable.error, R. drawable.error2};
 
+    // Get the JSON information from SettingsActivity in Main
     public void passJSONInfo(JSONArray json, String url) throws JSONException {
         jsonInfo = json;
         userURL = url;
         notifyDataSetChanged();
-        //DEBUG Statements
-        Log.d(TAG, "json: "+ jsonInfo);
-        Log.d(TAG, "jsonLength: "+ jsonInfo.length());
-        Log.d(TAG, "url: "+ userURL);
         if(jsonInfo != null) {
             getImageResource();
         }
     }
 
+    // Extract an ArrayList of File paths and Names
     private void getImageResource() throws JSONException {
         String jsonPets = "pets.json";
         file_resources = new ArrayList<String>();
+        name_resources = new ArrayList<String>();
         for(int i = 0; i< jsonInfo.length(); i++){
             String imageFile = jsonInfo.getJSONObject(i).getString("file");
-            String imageURL = userURL.substring(i, userURL.length() - jsonPets.length()) + imageFile;
+            String imageURL = userURL.substring(0, userURL.length() - jsonPets.length()) + imageFile;
+            String imageName = jsonInfo.getJSONObject(i).getString("name");
             file_resources.add(imageURL);
+            name_resources.add(imageName);
         }
-        Log.d(TAG, "files: "+ file_resources);
     }
-
-
 
     class PagerViewHolder extends RecyclerView.ViewHolder {
         private static final int UNINITIALIZED = -1;

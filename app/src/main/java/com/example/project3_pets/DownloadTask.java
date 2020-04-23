@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -88,8 +89,13 @@ public abstract class DownloadTask extends AsyncTask<String, Void, String> {
             BufferedReader in = null;
             try {
 
-                // this opens a connection, then sends GET & headers
-                connection.connect();
+                try {
+                    // this opens a connection, then sends GET & headers
+                    connection.connect();
+                }
+                catch (IOException e){
+                    return null;
+                }
 
                 // lets see what we got make sure its one of
                 // the 200 codes (there can be 100 of them

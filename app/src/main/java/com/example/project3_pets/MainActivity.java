@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             //Log.d(TAG, jsonArray.toString());
 
             // how many entries
-            jsonNumArray = jsonArray.length();
+            //jsonNumArray = jsonArray.length();
 
         } catch (Exception e) {
             e.printStackTrace();

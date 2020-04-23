@@ -1,32 +1,19 @@
 package com.example.project3_pets;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Balsamo";
@@ -112,15 +99,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void processJSON(String string) {
-        if (string == null) {
-        }
         try {
             JSONObject jsonobject = new JSONObject(string);
 
             // you must know what the data format is, a bit brittle
             jsonArray = jsonobject.getJSONArray("pets");
-            csa.acceptJSON(jsonArray);
-            Log.d(TAG, jsonArray.toString());
+
+            // pass the jsonArray and the URL to the viewPager
+            csa.passJSONInfo(jsonArray, userURL);
+
+            //DEBUG
+            //Log.d(TAG, jsonArray.toString());
 
             // how many entries
             jsonNumArray = jsonArray.length();

@@ -2,6 +2,7 @@ package com.example.project3_pets;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,22 +14,45 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewPager2_Adapter extends RecyclerView.Adapter {
+    private static final String TAG = "Balsamo";
     private final Context ctx;
     private final LayoutInflater li;
-    private JSONArray imageInfo;
+    private JSONArray jsonInfo;
+    private String userURL;
     //TODO: get images from JSON info
-    private int[] image_resources = {R.drawable.error};
+    private List<String> file_resources;
+    private List<String> name_resources;
+    private int[] image_resources = {R.drawable.error, R. drawable.error2};
 
-    public void acceptJSON(JSONArray json){
-        imageInfo = json;
+    public void passJSONInfo(JSONArray json, String url) throws JSONException {
+        jsonInfo = json;
+        userURL = url;
+        notifyDataSetChanged();
+        //DEBUG Statements
+        Log.d(TAG, "json: "+ jsonInfo);
+        Log.d(TAG, "jsonLength: "+ jsonInfo.length());
+        Log.d(TAG, "url: "+ userURL);
+        if(jsonInfo != null) {
+            getImageResource();
+        }
     }
 
-//    private void getImageResource(){
-//        for(int i = 0; i<imageInfo.length();)
-//        String imageFile = imageInfo.getJSONObject(i).getString("file");
-//    }
+    private void getImageResource() throws JSONException {
+        String jsonPets = "pets.json";
+        file_resources = new ArrayList<String>();
+        for(int i = 0; i< jsonInfo.length(); i++){
+            String imageFile = jsonInfo.getJSONObject(i).getString("file");
+            String imageURL = userURL.substring(i, userURL.length() - jsonPets.length()) + imageFile;
+            file_resources.add(imageURL);
+        }
+        Log.d(TAG, "files: "+ file_resources);
+    }
 
 
 
@@ -44,7 +68,7 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
             super(itemView);
             iv = (ImageView)itemView.findViewById(R.id.imageView);
             petName = (TextView)itemView.findViewById(R.id.tvPetName);
-            textInfo = itemView.findViewById(R.id.tvInfo);
+            textInfo = (TextView)itemView.findViewById(R.id.tvInfo);
         }
     }
 
@@ -77,7 +101,10 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
             if (this.myVh.position == this.original_position){
                 //still valid
                 //set the result on the main thread
-                myVh.iv.setImageResource(image_resources[this.myVh.position ]);
+                //TODO: set the image using a bitmap?? instead of setImageResource?
+                //myVh.iv.setImageUrl();
+
+                //myVh.iv.setImageResource(image_resources[this.myVh.position]);
                 myVh.textInfo.setText("");
                 //TODO: add setText to fill in petName from JSON info
                 //myVh.petName.setText(image_resources[this.]);
@@ -113,7 +140,7 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         viewHolder.textInfo.setText(R.string.getInfoString);
         viewHolder.position=position;       //remember which image this view is bound to
 
-        //launch a thread to 'retreive' the image
+        //launch a thread to 'retrieve' the image
         GetImage myTask = new GetImage(viewHolder);
         myTask.execute();
     }
@@ -122,5 +149,8 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
     public int getItemCount() {
         //the size of the collection that contains the items we want to display
         return image_resources.length;
+
+        //TODO: add this back in
+        //return imageInfo.length();
     }
 }

@@ -110,16 +110,16 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
                 //still valid
                 //set the result on the main thread
                 if (jsonInfo != null) {
-                    // Download the correct URL Image
+                    // Download the correct URL Image and set the image
                     Download_Image_Task bm = new Download_Image_Task();
                     bm.execute(file_resources.get(this.myVh.position));
 
                     //Set the image, text, and remove server info
-//                    myVh.iv.setImageBitmap(bitmap);
                     myVh.petName.setText(name_resources.get(this.myVh.position));
                     myVh.textInfo.setText("");
                 }
                 else {
+                    PagerViewHolder.iv.setImageResource(R.drawable.error);
                     myVh.petName.setText("");
                     myVh.textInfo.setText("Server returned 404");
                 }

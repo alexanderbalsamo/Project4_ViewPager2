@@ -62,6 +62,13 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public static void getBitmap(Bitmap result) {
+        //TODO: "Download_Image_Task should have a member variable which is a reference to the viewholder
+        // which has a pointer to a specific ImageView.
+        // If you are doing this you cannot overwrite one pages ImageView with another." - Dr. Perkins
+        PagerViewHolder.iv.setImageBitmap(result);
+    }
+
     static class PagerViewHolder extends RecyclerView.ViewHolder {
         private static final int UNINITIALIZED = -1;
         @SuppressLint("StaticFieldLeak")
@@ -88,6 +95,9 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         //is still what the viewholder wants
         private int original_position;
 
+        //get an instance of the bitmap class
+        Download_Image_Task bm = new Download_Image_Task();
+
         public GetImage(PagerViewHolder myVh) {
             //hold on to a reference to this viewholder
             //note that its contents (specifically iv) may change
@@ -111,7 +121,6 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
                 //set the result on the main thread
                 if (jsonInfo != null) {
                     // Download the correct URL Image and set the image
-                    Download_Image_Task bm = new Download_Image_Task();
                     bm.execute(file_resources.get(this.myVh.position));
 
                     //Set the image, text, and remove server info

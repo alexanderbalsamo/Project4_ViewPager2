@@ -1,5 +1,6 @@
 package com.example.project3_pets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -31,7 +32,7 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
     private JSONArray jsonInfo;
     private String userURL;
     private List<String> file_resources;
-    public List<String> name_resources;
+    private List<String> name_resources;
     private int[] image_resources = {R.drawable.error};
 
     // Get the JSON information from SettingsActivity in Main
@@ -48,6 +49,7 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         String jsonPets = "pets.json";
         file_resources = new ArrayList<String>();
         name_resources = new ArrayList<String>();
+        Download_Image_Task bm = new Download_Image_Task();
         for(int i = 0; i< jsonInfo.length(); i++){
             String imageFile = jsonInfo.getJSONObject(i).getString("file");
             String imageURL = userURL.substring(0, userURL.length() - jsonPets.length()) + imageFile;
@@ -55,18 +57,15 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
             file_resources.add(imageURL);
             name_resources.add(imageName);
         }
+
         // let our viewpager know that we have stuff now!
         notifyDataSetChanged();
     }
 
-    public void setImage(Bitmap result) {
-        // TODO: figure out how to set the image
-        PagerViewHolder.iv.setImageBitmap(result);
-    }
-
-    class PagerViewHolder extends RecyclerView.ViewHolder {
+    static class PagerViewHolder extends RecyclerView.ViewHolder {
         private static final int UNINITIALIZED = -1;
-        ImageView iv;
+        @SuppressLint("StaticFieldLeak")
+        static ImageView iv;
         TextView petName;
         TextView textInfo;
         int position=UNINITIALIZED;     //start off uninitialized, set it when we are populating
@@ -80,7 +79,7 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         }
     }
 
-    private class GetImage extends AsyncTask<Void, Void, Void> {
+    public class GetImage extends AsyncTask<Void, Void, Void> {
         //ref to a viewholder
         private PagerViewHolder myVh;
 
@@ -92,7 +91,7 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
         public GetImage(PagerViewHolder myVh) {
             //hold on to a reference to this viewholder
             //note that its contents (specifically iv) may change
-            //iff the viewholder is recycled
+            //if the viewholder is recycled
             this.myVh = myVh;
             //make a copy to compare later, once we have the image
             this.original_position = myVh.position;
@@ -110,14 +109,13 @@ public class ViewPager2_Adapter extends RecyclerView.Adapter {
             if (this.myVh.position == this.original_position){
                 //still valid
                 //set the result on the main thread
-                //TODO: set the image using a bitmap
                 if (jsonInfo != null) {
-                    // Get the bitmap and set the image
-                    Download_Image_Task getBitmap = new Download_Image_Task();
-                    getBitmap.execute(file_resources.get(this.myVh.position));
+                    // Download the correct URL Image
+                    Download_Image_Task bm = new Download_Image_Task();
+                    bm.execute(file_resources.get(this.myVh.position));
 
-                    // TODO: add this to on post execute so "Getting info..." is still displayed
-                    //Set the text and remove server info
+                    //Set the image, text, and remove server info
+//                    myVh.iv.setImageBitmap(bitmap);
                     myVh.petName.setText(name_resources.get(this.myVh.position));
                     myVh.textInfo.setText("");
                 }

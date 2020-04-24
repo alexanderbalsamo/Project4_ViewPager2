@@ -5,6 +5,9 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -90,9 +93,7 @@ public class Download_Image_Task extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap result) {
-        if (myViewPager2 != null) {
-            myViewPager2.setImage(result);
-        }
+        ViewPager2_Adapter.PagerViewHolder.iv.setImageBitmap(result);
     }
 
     /*
